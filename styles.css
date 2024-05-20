@@ -27,6 +27,7 @@ body {
 
 /* Main content */
 .content {
+  background: rgba(90, 99, 210, 9%);
   padding: var(--content-padding);
 }
 
@@ -45,6 +46,12 @@ body {
 }
 
 /* Post */
+.post {
+  background: white;
+  border-radius: 6px;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  padding: 8px 16px 16px;
+}
 .post__header {
   margin-bottom: 16px;
 }
