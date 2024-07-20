@@ -1,5 +1,6 @@
 import { PortableText, SanityDocument } from "next-sanity";
 import { sanityFetch } from "@/sanity/lib/client";
+import { TagIcon } from '@sanity/icons'
 
 const POSTS_QUERY = `*[
   _type == "post"
@@ -7,13 +8,13 @@ const POSTS_QUERY = `*[
   _id, 
   title,
   _createdAt,
-  content
+  content,
+  tag->{name}
 }`;
 
 export default async function IndexPage() {
   const posts = await sanityFetch<SanityDocument[]>({query: POSTS_QUERY});
-
-  console.log(posts);
+  console.log(posts[0].tag)
 
   return (
     <main>
@@ -24,12 +25,13 @@ export default async function IndexPage() {
         >
           <header className="mb-2">
             <h2 className="text-3xl mt-1">{post?.title}</h2>
-            <p className="text-sm">{'Posted by Paolo on '}
+            <p className="text-sm flex items-center">{'Posted by Paolo on '}
               {new Date(post?._createdAt).toLocaleDateString('en-US', {
                 day: 'numeric',
                 month: 'short',
                 year: 'numeric',
               }).replace(',', '')}
+              <span className="ml-1 bg-zinc-200 pt-1 pr-1 pb-1 pl-0.5 rounded inline-flex"><TagIcon className="inline text-xl" /> {post?.tag.name}</span>
             </p>
           </header>
           {post.content && post.content.length > 0 && (
