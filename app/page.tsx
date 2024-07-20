@@ -3,7 +3,7 @@ import { sanityFetch } from "@/sanity/lib/client";
 
 const POSTS_QUERY = `*[
   _type == "post"
-]{_id, title, content}`;
+]{_id, title, content, _createdAt}`;
 
 export default async function IndexPage() {
   const posts = await sanityFetch<SanityDocument[]>({query: POSTS_QUERY});
@@ -18,7 +18,14 @@ export default async function IndexPage() {
           <li
             key={post._id}
           >
-            {post.title}
+            <h2>{post.title}</h2>
+            <p>{'Posted by Paolo on '}
+              {new Date(post._createdAt).toLocaleDateString('en-US', {
+                day: 'numeric',
+                month: 'short',
+                year: 'numeric',
+              }).replace(',', '')}
+            </p>
           </li>
         ))}
       </ul>
