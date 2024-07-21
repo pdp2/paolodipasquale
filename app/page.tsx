@@ -25,17 +25,19 @@ export default async function IndexPage() {
         >
           <header className="mb-2">
             <h2 className="text-3xl mt-1">{post?.title}</h2>
-            <p className="text-sm flex items-center">{'Posted by Paolo on '}
+            <p className="mt-1 text-sm flex items-center">{'Posted by Paolo on '}
               {new Date(post?._createdAt).toLocaleDateString('en-US', {
                 day: 'numeric',
                 month: 'short',
                 year: 'numeric',
               }).replace(',', '')}
-              <span className="ml-1 bg-zinc-200 pt-1 pr-1 pb-1 pl-0.5 rounded inline-flex"><TagIcon className="inline text-xl" /> {post?.tag.name}</span>
+              <span className="ml-1 bg-zinc-200 pt-0.5 pr-1 pb-0.5 pl-0.5 rounded inline-flex"><TagIcon className="inline text-xl" /> {post?.tag.name}</span>
             </p>
           </header>
-          {post.content && post.content.length > 0 && (
-            <PortableText value={post.content} />
+          {post?.content?.length > 0 && (
+            <div className="prose">
+              <PortableText  value={post.content} />
+            </div>
           )}
         </article>
       ))}
