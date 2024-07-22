@@ -1,6 +1,8 @@
 import { PortableText, SanityDocument } from "next-sanity";
 import { sanityFetch } from "@/sanity/lib/client";
 import { TagIcon } from '@sanity/icons'
+import Link from 'next/link'
+
 
 const POSTS_QUERY = `*[
   _type == "post"
@@ -9,12 +11,12 @@ const POSTS_QUERY = `*[
   title,
   _createdAt,
   content,
-  tag->{name}
+  tag->{name},
+  slug
 }`;
 
 export default async function IndexPage() {
   const posts = await sanityFetch<SanityDocument[]>({query: POSTS_QUERY});
-  console.log(posts[0].tag)
 
   return (
     <main>
@@ -24,7 +26,7 @@ export default async function IndexPage() {
           className="mb-12"
         >
           <header className="mb-2">
-            <h2 className="text-3xl mt-1">{post?.title}</h2>
+            <h2 className="text-3xl mt-1"><Link href={`/posts/${post?.slug?.current}`} className="text-blue-600 hover:underline">{post?.title}</Link></h2>
             <p className="mt-1 text-sm flex items-center">{'Posted by Paolo on '}
               {new Date(post?._createdAt).toLocaleDateString('en-US', {
                 day: 'numeric',

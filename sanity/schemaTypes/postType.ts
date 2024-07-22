@@ -12,6 +12,15 @@ export const postType = defineType({
       type: 'string',
     }),
     defineField({
+      name: 'slug',
+      type: 'slug',
+      options: { source: 'title'},
+      validation: (rule) => rule
+        .required()
+        .error('Required to generate a page on the website'),
+      hidden: ({document}) => !document?.title
+    }),
+    defineField({
       name: 'content',
       type: 'array',
       of: [{ type: 'block' }],
