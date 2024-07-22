@@ -1,8 +1,36 @@
 import { PortableText, type SanityDocument } from "next-sanity";
 import { sanityFetch } from "@/sanity/lib/client";
 import { TagIcon } from "@sanity/icons";
+import { Metadata } from 'next'
 
-const EVENT_QUERY = `*[
+const METADATA_QUERY = `*[
+    _type == "post" && 
+    slug.current == $slug
+   ][0]{
+    title,
+   }
+`;
+ 
+type Props = {
+  params: { id: string }
+  searchParams: { [key: string]: string | string[] | undefined }
+}
+ 
+export async function generateMetadata(
+  { params }: Props,
+): Promise<Metadata> {
+  const metadata = await sanityFetch<SanityDocument>({
+    query: METADATA_QUERY,
+    params,
+  });
+  const { title } = metadata;
+ 
+  return {
+    title: `${title} | Paolo Di Pasquale's blog`,
+  }
+}
+
+const POST_QUERY = `*[
     _type == "post" &&
     slug.current == $slug
   ][0]{
@@ -13,13 +41,10 @@ const EVENT_QUERY = `*[
   tag->{name}
 }`;
 
-export default async function PostPage({
-  params,
-}: {
-  params: { slug: string };
-}) {
+export default async function PostPage(
+  { params }: Props) {
   const post = await sanityFetch<SanityDocument>({
-    query: EVENT_QUERY,
+    query: POST_QUERY,
     params,
   });
   const {

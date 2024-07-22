@@ -2,6 +2,12 @@ import { PortableText, SanityDocument } from "next-sanity";
 import { sanityFetch } from "@/sanity/lib/client";
 import { TagIcon } from '@sanity/icons'
 import Link from 'next/link'
+import { Metadata } from 'next'
+ 
+export const metadata: Metadata = {
+  title: "Paolo Di Pasquale's blog",
+  description: '',
+}
 
 
 const POSTS_QUERY = `*[
