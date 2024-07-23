@@ -30,5 +30,11 @@ export const postType = defineType({
       type: 'reference',
       to: [{ type: 'tag' }],
     }),
+    defineField({
+      name: 'excludeFromPostsFeed',
+      title: 'Exclude from posts feed',
+      type: 'boolean',
+      initialValue: false,
+    }),
   ],
 })
